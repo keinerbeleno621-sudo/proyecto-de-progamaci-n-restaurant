@@ -1,4 +1,5 @@
-Importación
+JOHN DAIRON SANTANA MUÑOZ 
+KEINER JOSE BELEÑO PARRA
 using System;
 
 Permite usar funcionalidades básicas del sistema como:
