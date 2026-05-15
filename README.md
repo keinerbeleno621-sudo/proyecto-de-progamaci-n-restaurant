@@ -1,181 +1,52 @@
 JOHN DAIRON SANTANA MUÑOZ 
 KEINER JOSE BELEÑO PARRA
-using System;
+1. La Estructura de Datos (struct Jugador)
+Es un molde personalizado que sirve para agrupar los datos de un solo jugador en un solo lugar. Tiene las siguientes variables internas (atributos):
 
-Permite usar funcionalidades básicas del sistema como:
+Puntos (int): Almacena el puntaje del jugador (número entero).
 
-Console.Write()
+Horas (double): Almacena las horas de juego (número con decimales).
 
-Console.ReadLine()
+Nivel (string): Guarda la clasificación del jugador (texto como "Principiante" o "Experto VIP").
 
-Console.WriteLine()
+Mensaje (string): Guarda el estado de la bonificación (texto).
 
-2️⃣ Declaración de la clase y método principal
-public class Program
-{
-    public static void Main(string[] args)
+2. Variables en el Método Principal (Main)
+Estas variables controlan el flujo general del programa y la base de datos temporal:
 
-Program es la clase principal.
+listaJugadores (List<Jugador>): Es una lista dinámica que funciona como la base de datos del programa. Aquí se van guardando uno a uno los Jugador que registres.
 
-Main es el punto de inicio del programa.
+opcion (string): Almacena el texto que el usuario escribe en la consola para elegir qué hacer en el menú ("1", "2" o "3").
 
-Todo lo que está dentro de Main es lo que se ejecuta.
+3. Variables Locales en RegistrarJugador
+Estas variables solo existen temporalmente mientras se ejecuta el proceso de registro de un nuevo jugador:
 
-3️⃣ Entradas del usuario
-Console.Write("Ingrese los puntos del jugador: ");
-int puntos = int.Parse(Console.ReadLine());
+puntos (int): Almacena temporalmente el número que el usuario ingresa para los puntos, tras verificar que sea válido.
 
-Pide los puntos.
+horas (double): Almacena temporalmente el número que el usuario ingresa para las horas, tras verificar que sea válido.
 
-Convierte la entrada de texto a número entero.
+esPremium (string): Captura la respuesta del usuario a la pregunta "¿Es premium? (si/no)" y la convierte a minúsculas. (Nota: Actualmente el código la pide pero no la usa para ninguna lógica).
 
-Console.Write("Ingrese las horas jugadas: ");
-double horasJugadas = double.Parse(Console.ReadLine());
+nivel (string): Variable temporal donde se calcula la categoría del jugador según sus puntos mediante condiciones (if/else).
 
-Pide las horas jugadas.
+mensaje (string): Variable temporal que evalúa si las horas son mayores a 100 para asignar "Bonificación activa" o "Sin bonificación".
 
-Convierte el texto en número decimal.
+4. Las Funciones (Métodos)
+Son los bloques de código que ejecutan las acciones principales del sistema:
 
-Console.Write("¿Es usuario premium? (si/no): ");
-string esPremium = (Console.ReadLine());
+Main(string[] args)
+¿Qué hace?: Es el punto de partida obligatorio de cualquier programa en C#.
 
-Pide si el usuario es premium.
+Su función aquí: Controla el ciclo de vida del programa mediante un bucle while. Muestra el menú visual en la consola, lee la opción del usuario y decide si debe llamar a la función de registrar, a la de reportes, o cerrar el programa.
 
-Guarda la respuesta como texto ("si" o "no").
+RegistrarJugador(List<Jugador> lista)
+¿Qué hace?: Se encarga de pedirle los datos al usuario y añadir un nuevo miembro a la lista.
 
-4️⃣ Variables auxiliares
-string nivel = "";
-string mensaje = "";
+Su función aquí: 1. Solicita puntos y horas de forma segura (usando int.TryParse y double.TryParse para que el programa no se rompa si el usuario escribe letras).
+2. Calcula automáticamente el nivel y el mensaje.
+3. Crea un objeto Jugador con esos datos y lo inyecta dentro de la lista que recibió por parámetro.
 
-nivel almacenará la clasificación del jugador.
+MostrarReporte(List<Jugador> lista)
+¿Qué hace?: Muestra en pantalla de forma ordenada todos los datos acumulados.
 
-mensaje almacenará el mensaje de bonificación si aplica.
-
-🎯 5️⃣ Clasificación principal por puntos
-if (puntos >= 1000)
-{
-    nivel = "Experto";
-}
-else if (puntos >= 500)
-{
-    nivel = "Intermedio";
-}
-else
-{
-    nivel = "Principiante";
-}
-
-El programa clasifica así:
-
-Puntos	Nivel
-1000 o más	Experto
-500 a 999	Intermedio
-Menos de 500	Principiante
-🔵 6️⃣ Regla compuesta 1
-if (esPremium == "si" && puntos >= 800)
-{
-    nivel = "Experto VIP";
-}
-
-Si:
-
-Es premium
-
-Y tiene 800 o más puntos
-
-Entonces cambia el nivel a "Experto VIP", incluso si antes era Experto o Intermedio.
-
-🔵 7️⃣ Regla compuesta 2
-if (esPremium =="si" && horasJugadas > 100)
-{
-    mensaje = "Recibe bonificación especial por ser Premium activo.";
-}
-
-Si:
-
-Es premium
-
-Y ha jugado más de 100 horas
-
-Recibe un mensaje especial.
-
-🔵 8️⃣ Regla compuesta 3
-if (esPremium =="no" && horasJugadas > 100)
-{
-    mensaje = "Recibe bonificación especial por ser Premium activo.";
-}
-
-Si:
-
-NO es premium
-
-Y tiene más de 100 horas
-
-También recibe el mismo mensaje de bonificación.
-
-🔵 9️⃣ Regla compuesta 4
-if (esPremium == "no" && puntos >= 800)
-{
-    nivel = "Experto VIP";
-}
-
-Si:
-
-No es premium
-
-Y tiene 800 o más puntos
-
-También se le asigna el nivel "Experto VIP".
-
-🖥 10️⃣ Salida del programa
-Console.WriteLine("\n=== Resultado ===");
-Console.WriteLine($"Nivel del jugador: {nivel}");
-Console.WriteLine(mensaje);
-
-Muestra en pantalla:
-
-El nivel final del jugador.
-
-El mensaje de bonificación (si se asignó).
-
-🔄 Resumen en Entrada – Proceso – Salida
-🟢 ENTRADA
-
-Puntos del jugador
-
-Horas jugadas
-
-Si es premium ("si" / "no")
-
-🟡 PROCESO
-
-Clasifica por puntos.
-
-Evalúa reglas especiales según:
-
-Tipo de usuario.
-
-Cantidad de puntos.
-
-Horas jugadas.
-
-Puede modificar el nivel inicial.
-
-Puede asignar un mensaje adicional.
-
-🔵 SALIDA
-
-Nivel final del jugador.
-
-Mensaje de bonificación (si aplica).
-
-📊 Tabla Resumen
-Sección	Qué hace	Variable afectada
-Entradas	Captura datos del usuario	puntos, horasJugadas, esPremium
-Clasificación principal	Determina nivel base	nivel
-Regla compuesta 1	Puede cambiar a Experto VIP	nivel
-Regla compuesta 2	Asigna mensaje premium	mensaje
-Regla compuesta 3	Asigna mensaje no premium	mensaje
-Regla compuesta 4	Puede cambiar nivel no premium	nivel
-Salida	Muestra resultados	nivel, mensaje
-
+Su función aquí: Primero revisa si la lista está vacía (lista.Count == 0). Si tiene datos, usa un ciclo foreach para recorrer a cada jugador guardado y mostrar sus estadísticas en una sola línea estética en la consola.
